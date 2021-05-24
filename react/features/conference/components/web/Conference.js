@@ -12,6 +12,7 @@ import { Chat } from '../../../chat';
 import { Filmstrip } from '../../../filmstrip';
 import { CalleeInfoContainer } from '../../../invite';
 import { LargeVideo } from '../../../large-video';
+import { Schisming} from '../../../schisming'
 import { KnockingParticipantList, LobbyScreen } from '../../../lobby';
 import { Prejoin, isPrejoinPageVisible } from '../../../prejoin';
 import { fullScreenChanged, showToolbox } from '../../../toolbox/actions.web';
@@ -190,6 +191,7 @@ class Conference extends AbstractConference<Props, *> {
 
                 <Notice />
                 <div id = 'videospace'>
+                    <Schisming />
                     <LargeVideo />
                     <KnockingParticipantList />
                     <Filmstrip />
