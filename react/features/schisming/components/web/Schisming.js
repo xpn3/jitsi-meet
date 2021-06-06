@@ -30,8 +30,12 @@ class Schisming extends Component<Props> {
     }
 
     _setAudioVolume(newVal) {
-        logger.info('>>>> setAudioVolume');
-        // TODO implement
+        logger.info('Adjusting volume for schisming groups to ' + newVal);
+        var schismingHub = APP.conference.getSchismingHub();
+        var thisParticipantJid = APP.conference.getMyUserId();
+        var otherParticipants = APP.conference.getParticipants();
+        logger.info('calling schismingHub.adjustVolume with thisParticipantJid=' + thisParticipantJid + ', otherParticipants=' + otherParticipants);
+        schismingHub.adjustVolume(newVal, thisParticipantJid, otherParticipants);
     }
 }
 

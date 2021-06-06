@@ -1004,6 +1004,10 @@ export default {
         return user && user.isModerator();
     },
 
+    getParticipants() {
+        return room.getParticipants();
+    },
+
     /**
      * Retrieve list of conference participants (without local user).
      * @returns {JitsiParticipant[]}
@@ -3000,5 +3004,9 @@ export default {
         }
 
         this._proxyConnection = null;
+    },
+
+    getSchismingHub() {
+        return this._room.getSchismingHub();
     }
 };
