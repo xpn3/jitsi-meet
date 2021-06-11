@@ -31,11 +31,17 @@ class Schisming extends Component<Props> {
 
     _setAudioVolume(newVal) {
         logger.info('setAudioLevel with newVal=' + newVal);
+        var thisParticipantJid = APP.conference.getMyUserId();
         var otherParticipants = APP.conference.getParticipants();
-        var participant1 = otherParticipants[0];
-        var participant1Id = participant1.getId();
-        var smallVideo = APP.UI.getSmallVideo(participant1Id);
-        smallVideo._setAudioVolume(newVal);
+        var schismingHub = APP.conference.getSchismingHub();
+
+        var participantsToAdjust = schismingHub.getParticipantsOfOtherSchismingGroups(thisParticipantJid, otherParticipants);
+
+        for(var i = 0; i < participantsToAdjust.length; i++) {
+            var participantId = participantsToAdjust[i].getId();
+            var smallVideo = APP.UI.getSmallVideo(participantId);
+            smallVideo._setAudioVolume(newVal);
+        }
     }
 }
 
