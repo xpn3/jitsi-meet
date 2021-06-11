@@ -49,6 +49,10 @@ const UIListeners = new Map([
     ]
 ]);
 
+UI.getSmallVideo = function(id) {
+    return VideoLayout.getSmallVideo(id);
+};
+
 /**
  * Indicates if we're currently in full screen mode.
  *
