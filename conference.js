@@ -3007,6 +3007,6 @@ export default {
     },
 
     getSchismingHub() {
-        return this._room.getSchismingHub();
+        return room.getSchismingHub();
     }
 };
