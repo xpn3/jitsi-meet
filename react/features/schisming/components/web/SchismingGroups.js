@@ -5,10 +5,7 @@ import React, { Component } from 'react';
 
 import {
     getLocalParticipant,
-    getParticipants,
-    participantPresenceChanged,
-    participantUpdated,
-    getParticipantById
+    getParticipants
 } from '../../../base/participants';
 
 const logger = Logger.getLogger(__filename);
@@ -17,75 +14,75 @@ class SchismingGroups extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
+        this.state = {
+            schismingHub: null
+        };
+
         this._joinGroup = this._joinGroup.bind(this);
-        this._getGroupsAndMembers = this._getGroupsAndMembers.bind(this);
+        this._setSchismingHub = this._setSchismingHub.bind(this);
+        this._renderGroup = this._renderGroup.bind(this);
+        this._renderParticipant = this._renderParticipant.bind(this);
+        this._renderLocalParticipantIfGroupIdMatches = this._renderLocalParticipantIfGroupIdMatches.bind(this);
+    }
+
+    _setSchismingHub() {
+        if(this.state.schismingHUb != null) {
+            return;
+        }
+        try {
+            this.state.schismingHub = APP.conference.getSchismingHub();
+        } catch(e) {
+            logger.warn('Error during APP.conference.getSchismingHub(). Could not get SchismingHub.');
+        }
     }
 
     render() {
-        var groupsAndMembers = this._getGroupsAndMembers();
+        this._setSchismingHub();
 
-        if(groupsAndMembers == null) {
-            logger.info('>>> reached return after setTimeout');
+        if(this.state.schismingHub == null) {
             return null;
         }
 
-        logger.info('>>> reached return in render() without error');
+        var otherParticipants = APP.conference.getParticipants();
+        var participantsByGroupIds = this.state.schismingHub.getParticipantsByGroupIds(otherParticipants);
 
         return (
-            <div className = 'schisming-groups-container'>
-                <div className = 'schisming-group-container'>
-                    {groupsAndMembers}
-                </div>
+            <div className = 'schisming-groups'>
+                {Object.keys(participantsByGroupIds).map((groupId) => this._renderGroup(groupId, participantsByGroupIds[groupId]))}
             </div>
         );
     }
 
-    _getGroupsAndMembers() {
-        var schismingHub;
-        try {
-            schismingHub = APP.conference.getSchismingHub();
-        } catch(e) {
-            logger.info('>>> reached return after error in getSchismingHub()');
+    _renderGroup(groupId, participants) {
+        return (
+            <div className="schisming-group">
+                {this._renderLocalParticipantIfGroupIdMatches(groupId)}
+                {participants.map((participant) => this._renderParticipant(participant))}
+                <div>{groupId}</div>
+            </div>
+        );
+    }
+
+    _renderParticipant(participant) {
+        return (
+            <div className="schisming-group-member">
+                {APP.conference.getParticipantDisplayName(participant.getId())}
+            </div>
+        );
+    }
+
+    _renderLocalParticipantIfGroupIdMatches(groupId) {
+        var thisParticipantId = APP.conference.getMyUserId();
+        var thisParticipantGroupId = this.state.schismingHub.getSchismingGroupIdForParticipant(thisParticipantId);
+
+        if(thisParticipantGroupId != groupId) {
             return null;
         }
-
-        logger.info('>>> reached before getParticipants()');
-        var allParticipants = APP.conference.getParticipants();
-        logger.info('>>> reached before schismingHub.getParticipantsByGroupIds()');
-        var participantsByGroupIds = schismingHub.getParticipantsByGroupIds(allParticipants);
-
-        var thisParticipantJid = APP.conference.getMyUserId();
-        var thisParticipantGroupId = schismingHub.getSchismingGroupIdForParticipant(thisParticipantJid);
-
-        var groupsAndMembers = [];
-        logger.info('>>> reached before for() with number of groups=' + Object.keys(participantsByGroupIds).length);
-
-        for(var groupId in participantsByGroupIds) {
-            logger.info('>>> groupId=' + groupId);
-            //var groupDivStart = (<div className="schisming-group">); // TODO fix
-            //groupsAndMembers.push(groupDivStart); // TODO fix
-
-            if(thisParticipantGroupId == groupId) {
-                var thisParticipantName = APP.conference.getLocalDisplayName();
-                logger.info('>>> adding this participant ' + thisParticipantName);
-                //var thisParticipantDiv = (<div className="schisming-group-member">{thisParticipantName}</div>); // TODO fix
-                //groupsAndMembers.push(thisParticipantDiv); // TODO fix
-            }
-
-            var participants = participantsByGroupIds[groupId];
-            for(var i = 0; i < participants.length; i++) {
-                logger.info('>>> participant=' + participants[i]);
-                var participantId = participants[i].getId();
-                var participantName = APP.conference.getParticipantDisplayName(participantId);
-                //var participantDiv = (<div className="schisming-group-member">{participantName}</div>); // TODO fix
-                //groupsAndMembers.push(participantDiv); // TODO fix
-            }
-
-            logger.info('>>> participants=' + participants.toString());
-            //var groupDivEnd = (<div className="schisming-group-id">{groupId}</div></div>); // TODO fix
-            //groupsAndMembers.push(groupDivEnd); // TODO fix
-        }
-        return groupsAndMembers;
+        return (
+            <div className="schisming-group-member">
+                {APP.conference.getLocalDisplayName()}
+            </div>
+        );
     }
 
     _joinGroup: (Object) => void;

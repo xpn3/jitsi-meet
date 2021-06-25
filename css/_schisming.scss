@@ -7,15 +7,42 @@
         position: fixed;
         width: 100%;
         z-index: 3;
+        flex-direction: column;
+    }
+
+    &-groups {
+        align-self: center;
+        display: flex;
+        height: 70%;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-content: flex-start;
+
+        .schisming-group {
+            display: flex;
+            background: black;
+            align-content: flex-end;
+            justify-content: flex-start;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            min-height: 125px;
+            min-width: 100px;
+            margin: 5px;
+            padding: 10px;
+        }
+
+        .schisming-group-member {
+            display: flex;
+            color: white;
+        }
     }
 
     &-group-button-new {
         display: flex;
-        margin: auto;
         padding: 8px 16px;
         width: 50px;
         height: 24px;
-        background: red; //#0376DA
+        background: #0376DA;
         border-radius: 3px;
         font-size: 14px;
         line-height: 24px;
@@ -23,11 +50,10 @@
         z-index: 4;
 
         &:hover {
-            background: green; //#278ADF
+            background: #278ADF;
         }
 
         &-text {
-            color: yellow; // TODO adjust
             margin-left: 8px;
             font-size: 15px;
             line-height: 24px;
