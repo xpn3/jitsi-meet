@@ -18,17 +18,18 @@ class SchismingGroups extends Component<Props, State> {
             schismingHub: null
         };
 
+        window.schismingGroups = this;
+
         this._joinGroup = this._joinGroup.bind(this);
         this._setSchismingHub = this._setSchismingHub.bind(this);
+        this._rerender = this._rerender.bind(this);
         this._renderGroup = this._renderGroup.bind(this);
         this._renderParticipant = this._renderParticipant.bind(this);
-        this._renderLocalParticipantIfGroupIdMatches = this._renderLocalParticipantIfGroupIdMatches.bind(this);
+
+        this.onDisplayNameChanged = this.onDisplayNameChanged.bind(this);
     }
 
     _setSchismingHub() {
-        if(this.state.schismingHUb != null) {
-            return;
-        }
         try {
             this.state.schismingHub = APP.conference.getSchismingHub();
         } catch(e) {
@@ -43,44 +44,44 @@ class SchismingGroups extends Component<Props, State> {
             return null;
         }
 
-        var otherParticipants = APP.conference.getParticipants();
-        var participantsByGroupIds = this.state.schismingHub.getParticipantsByGroupIds(otherParticipants);
+        var participantIdsByGroupId = this.state.schismingHub.getParticipantIdsByGroupId();
 
         return (
             <div className = 'schisming-groups'>
-                {Object.keys(participantsByGroupIds).map((groupId) => this._renderGroup(groupId, participantsByGroupIds[groupId]))}
+                {Object.keys(participantIdsByGroupId).map((groupId) => this._renderGroup(groupId, participantIdsByGroupId[groupId]))}
             </div>
         );
     }
 
-    _renderGroup(groupId, participants) {
+    onDisplayNameChanged() {
+        this._rerender();
+    }
+
+    _rerender() {
+        this.setState({ state: this.state });
+    }
+
+    _renderGroup(groupId, participantIds) {
         return (
             <div className="schisming-group">
-                {this._renderLocalParticipantIfGroupIdMatches(groupId)}
-                {participants.map((participant) => this._renderParticipant(participant))}
+                {participantIds.map((participantId) => this._renderParticipant(participantId))}
                 <div>{groupId}</div>
             </div>
         );
     }
 
-    _renderParticipant(participant) {
-        return (
-            <div className="schisming-group-member">
-                {APP.conference.getParticipantDisplayName(participant.getId())}
-            </div>
-        );
-    }
-
-    _renderLocalParticipantIfGroupIdMatches(groupId) {
-        var thisParticipantId = APP.conference.getMyUserId();
-        var thisParticipantGroupId = this.state.schismingHub.getSchismingGroupIdForParticipant(thisParticipantId);
-
-        if(thisParticipantGroupId != groupId) {
-            return null;
+    _renderParticipant(participantId) {
+        if(participantId == APP.conference.getMyUserId()) {
+            return (
+                <div className="schisming-group-member">
+                    <strong>ME</strong>
+                </div>
+            );
         }
+
         return (
             <div className="schisming-group-member">
-                {APP.conference.getLocalDisplayName()}
+                {APP.conference.getParticipantDisplayName(participantId)}
             </div>
         );
     }

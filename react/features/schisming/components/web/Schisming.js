@@ -6,12 +6,24 @@ import React, { Component } from 'react';
 import { SchismingGroups } from '../../../schisming';
 import { SchismingVolumeSlider } from '../../../schisming';
 
+import {
+    updateSettings
+} from '../../../base/settings';
+
 const logger = Logger.getLogger(__filename);
 
 class Schisming extends Component<Props> {
     constructor(props: Props) {
         super(props);
+
+        window.schisming = this;
+
         this._newGroup = this._newGroup.bind(this);
+        this._setAudioVolume = this._setAudioVolume.bind(this);
+
+        this.onDisplayNameChanged = this.onDisplayNameChanged.bind(this);
+
+        APP.store.subscribe(updateSettings)
     }
 
     /**
@@ -24,7 +36,7 @@ class Schisming extends Component<Props> {
         const initialVolumeValue = 1;
         return (
             <div className = 'schisming-container'>
-                <SchismingGroups/>
+                <SchismingGroups />
                 <div
                     className = 'schisming-group-button-new'
                     onClick = { this._newGroup }>
@@ -40,7 +52,9 @@ class Schisming extends Component<Props> {
         );
     }
 
-    _newGroup: (Object) => void;
+    onDisplayNameChanged() {
+        window.schismingGroups.onDisplayNameChanged();
+    }
 
     _newGroup(event) {
         logger.info('_newGroup');

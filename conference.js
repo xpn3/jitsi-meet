@@ -2016,6 +2016,7 @@ export default {
                                 || interfaceConfig.DEFAULT_REMOTE_DISPLAY_NAME)
                 });
                 APP.UI.changeDisplayName(id, formattedDisplayName);
+                window.schisming.onDisplayNameChanged();
             }
         );
         room.on(
