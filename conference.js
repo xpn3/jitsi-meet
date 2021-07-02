@@ -2019,6 +2019,14 @@ export default {
                 window.schisming.onDisplayNameChanged();
             }
         );
+
+        room.on(
+            JitsiConferenceEvents.SCHISMINGHUB_STATE_CHANGED,
+            () => {
+                window.schisming.onDisplayNameChanged();
+            }
+        );
+
         room.on(
             JitsiConferenceEvents.BOT_TYPE_CHANGED,
             (id, botType) => {
