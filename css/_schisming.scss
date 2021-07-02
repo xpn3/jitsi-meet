@@ -1,19 +1,19 @@
 .schisming {
     &-container {
-        align-items: flex-start;
+        align-items: center;
         display: inline-flex;
         height: 100%;
-        justify-content: center;
+        justify-content: flex-end;
         position: fixed;
         width: 100%;
         z-index: 3;
         flex-direction: column;
+        background: gray;
     }
 
     &-groups {
-        align-self: center;
         display: flex;
-        height: 70%;
+        height: 50%;
         flex-wrap: wrap;
         justify-content: center;
         align-content: flex-start;
@@ -21,14 +21,33 @@
         .schisming-group {
             display: flex;
             background: black;
-            align-content: flex-end;
-            justify-content: flex-start;
             flex-direction: column;
             flex-wrap: nowrap;
             min-height: 125px;
-            min-width: 100px;
+            min-width: 125px;
             margin: 5px;
-            padding: 10px;
+            padding: 15px;
+            justify-content: flex-end;
+
+            &-button-join {
+                display: flex;
+                width: 100%;
+                height: 30px;
+                background: #0376DA;
+                border-radius: 3px;
+                font-size: 1em;
+                cursor: pointer;
+                align-self: center;
+                justify-content: center;
+                align-items: center;
+                color: white;
+                margin-top: 10px;
+                z-index: 4;
+
+                &:hover {
+                    background: #278ADF;
+                }
+            }
         }
 
         .schisming-group-member {
@@ -37,39 +56,16 @@
         }
     }
 
-    &-group-button-new {
-        display: flex;
-        padding: 8px 16px;
-        width: 50px;
-        height: 24px;
-        background: #0376DA;
-        border-radius: 3px;
-        font-size: 14px;
-        line-height: 24px;
-        cursor: pointer;
-        z-index: 4;
-
-        &:hover {
-            background: #278ADF;
-        }
-
-        &-text {
-            margin-left: 8px;
-            font-size: 15px;
-            line-height: 24px;
-        }
-    }
-
     &-slider-container {
         align-items: center;
-        align-self: flex-end;
         background-color: black;
         bottom: 20%;
         display: flex;
-        height: 10%;
+        height: 4em;
         justify-content: center;
         position: relative;
-        width: 30%;
+        width: 25%;
+        min-width: 150px;
         z-index: 4;
 
         .schisming-slider-icon {
@@ -83,7 +79,7 @@
 
         .schisming-slider {
             display: flex;
-            min-width: 250px;
+            min-width: 100px;
             width: 50%;
 
             &::-webkit-slider-runnable-track {

@@ -18,7 +18,6 @@ class Schisming extends Component<Props> {
 
         window.schisming = this;
 
-        this._newGroup = this._newGroup.bind(this);
         this._setAudioVolume = this._setAudioVolume.bind(this);
 
         this.onDisplayNameChanged = this.onDisplayNameChanged.bind(this);
@@ -37,13 +36,6 @@ class Schisming extends Component<Props> {
         return (
             <div className = 'schisming-container'>
                 <SchismingGroups />
-                <div
-                    className = 'schisming-group-button-new'
-                    onClick = { this._newGroup }>
-                    <div className = 'schisming-group-button-new-text'>
-                        New group
-                    </div>
-                </div>
                 <SchismingVolumeSlider
                     initialValue = { initialVolumeValue }
                     key = 'volume-slider'
@@ -54,11 +46,6 @@ class Schisming extends Component<Props> {
 
     onDisplayNameChanged() {
         window.schismingGroups.onDisplayNameChanged();
-    }
-
-    _newGroup(event) {
-        logger.info('_newGroup');
-        // TODO implement
     }
 
     _setAudioVolume(newVal) {

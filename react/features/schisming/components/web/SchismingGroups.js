@@ -20,11 +20,13 @@ class SchismingGroups extends Component<Props, State> {
 
         window.schismingGroups = this;
 
-        this._joinGroup = this._joinGroup.bind(this);
         this._setSchismingHub = this._setSchismingHub.bind(this);
         this._rerender = this._rerender.bind(this);
         this._renderGroup = this._renderGroup.bind(this);
         this._renderParticipant = this._renderParticipant.bind(this);
+        this._joinGroup = this._joinGroup.bind(this);
+        this._leaveGroup = this._leaveGroup.bind(this);
+        this._renderJoinOrLeaveGroup = this._renderJoinOrLeaveGroup.bind(this);
 
         this.onDisplayNameChanged = this.onDisplayNameChanged.bind(this);
     }
@@ -65,7 +67,23 @@ class SchismingGroups extends Component<Props, State> {
         return (
             <div className="schisming-group">
                 {participantIds.map((participantId) => this._renderParticipant(participantId))}
-                <div>{groupId}</div>
+                {this._renderJoinOrLeaveGroup(groupId)}
+            </div>
+        );
+    }
+
+    _renderJoinOrLeaveGroup(groupId) {
+        var thisParticipantsGroupId = this.state.schismingHub.getSchismingGroupIdForParticipant(APP.conference.getMyUserId());
+        if(groupId == thisParticipantsGroupId) {
+            return (
+                <div className="schisming-group-button-join" onClick={() => this._leaveGroup()}>
+                    <strong>Leave group</strong>
+                </div>
+            );
+        }
+        return (
+            <div className="schisming-group-button-join" onClick={() => this._joinGroup(groupId)}>
+                <strong>Join group {groupId}</strong>
             </div>
         );
     }
@@ -86,11 +104,14 @@ class SchismingGroups extends Component<Props, State> {
         );
     }
 
-    _joinGroup: (Object) => void;
+    _joinGroup(groupId) {
+        logger.info('Clicked \'Join group ' + groupId + '\'');
+        //TODO execute joinGroup on lib-jitsi-meet/JitsiSchismingHub
+    }
 
-    _joinGroup(event) {
-        logger.info('_joinGroup');
-        //TODO implement
+    _leaveGroup() {
+        logger.info('Clicked \'Leave group\'');
+        this._joinGroup(null);
     }
 }
 
