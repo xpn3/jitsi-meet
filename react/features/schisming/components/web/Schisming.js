@@ -20,6 +20,7 @@ class Schisming extends Component<Props> {
 
         this.onDisplayNameChanged = this.onDisplayNameChanged.bind(this);
         this.updateAudioVolume = this.updateAudioVolume.bind(this);
+        this.isActive = this.isActive.bind(this);
     }
 
     /**
@@ -38,6 +39,10 @@ class Schisming extends Component<Props> {
                     onChange = { this._setAudioVolume } />
             </div>
         );
+    }
+
+    isActive() {
+        return true;
     }
 
     onDisplayNameChanged() {

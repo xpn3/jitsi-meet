@@ -82,6 +82,10 @@ export function shouldDisplayTileView(state: Object = {}) {
         return false;
     }
 
+    if (window.schisming.isActive()) {
+        return false;
+    }
+
     const { disableTileView } = state['features/base/config'];
 
     if (disableTileView) {
