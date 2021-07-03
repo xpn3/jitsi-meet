@@ -39,6 +39,9 @@ class SchismingVolumeSlider extends Component<Props, State> {
                     onChange = { this._onVolumeChange }
                     type = 'range'
                     value = { this.state.volumeLevel } />
+                <div className = 'schisming-slider-text'>
+                    { this.state.volumeLevel }%
+                </div>
             </div>
         );
     }

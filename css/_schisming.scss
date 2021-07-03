@@ -81,6 +81,7 @@
             display: flex;
             min-width: 100px;
             width: 50%;
+            margin-right: 10px;
 
             &::-webkit-slider-runnable-track {
                 background-color: $popupSliderColor;
@@ -93,6 +94,13 @@
             &::-ms-fill-lower {
                 background-color: $popupSliderColor;
             }
+        }
+
+        .schisming-slider-text {
+            display: flex;
+            color: white;
+            align-items: center;
+            padding-top: 2px;
         }
     }
 }
