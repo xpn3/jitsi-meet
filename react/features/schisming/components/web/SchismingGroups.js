@@ -106,7 +106,7 @@ class SchismingGroups extends Component<Props, State> {
 
     _joinGroup(groupId) {
         logger.info('Clicked \'Join group ' + groupId + '\'');
-        //TODO execute joinGroup on lib-jitsi-meet/JitsiSchismingHub
+        this.state.schismingHub.joinOrLeaveGroup(APP.conference.getMyUserId(), groupId);
     }
 
     _leaveGroup() {
