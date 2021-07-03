@@ -6,23 +6,20 @@ import React, { Component } from 'react';
 import { SchismingGroups } from '../../../schisming';
 import { SchismingVolumeSlider } from '../../../schisming';
 
-import {
-    updateSettings
-} from '../../../base/settings';
-
 const logger = Logger.getLogger(__filename);
 
 class Schisming extends Component<Props> {
     constructor(props: Props) {
         super(props);
 
+        this.currentVolume = 1;
+
         window.schisming = this;
 
         this._setAudioVolume = this._setAudioVolume.bind(this);
 
         this.onDisplayNameChanged = this.onDisplayNameChanged.bind(this);
-
-        APP.store.subscribe(updateSettings)
+        this.updateAudioVolume = this.updateAudioVolume.bind(this);
     }
 
     /**
@@ -32,12 +29,11 @@ class Schisming extends Component<Props> {
      * @returns {React$Element}
      */
     render() {
-        const initialVolumeValue = 1;
         return (
             <div className = 'schisming-container'>
                 <SchismingGroups />
                 <SchismingVolumeSlider
-                    initialValue = { initialVolumeValue }
+                    initialValue = { this.currentVolume }
                     key = 'volume-slider'
                     onChange = { this._setAudioVolume } />
             </div>
@@ -45,11 +41,19 @@ class Schisming extends Component<Props> {
     }
 
     onDisplayNameChanged() {
+        logger.info('Updates SchismingGroups view.');
         window.schismingGroups.onDisplayNameChanged();
     }
 
+    updateAudioVolume() {
+        logger.info('Updates audio volume for all remote participants.');
+        this._setAudioVolume(this.currentVolume);
+    }
+
     _setAudioVolume(newVal) {
-        logger.info('setAudioLevel with newVal=' + newVal);
+        logger.info('Sets audio volume to ' + newVal);
+        this.currentVolume = newVal;
+
         var thisParticipantJid = APP.conference.getMyUserId();
         var otherParticipants = APP.conference.getParticipants();
         var schismingHub = APP.conference.getSchismingHub();

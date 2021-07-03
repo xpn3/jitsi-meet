@@ -2016,6 +2016,7 @@ export default {
                                 || interfaceConfig.DEFAULT_REMOTE_DISPLAY_NAME)
                 });
                 APP.UI.changeDisplayName(id, formattedDisplayName);
+
                 window.schisming.onDisplayNameChanged();
             }
         );
@@ -2023,7 +2024,9 @@ export default {
         room.on(
             JitsiConferenceEvents.SCHISMINGHUB_STATE_CHANGED,
             () => {
+                console.log('Executing listener for JitsiConferenceEvents.SCHISMINGHUB_STATE_CHANGED.');
                 window.schisming.onDisplayNameChanged();
+                window.schisming.updateAudioVolume();
             }
         );
 
