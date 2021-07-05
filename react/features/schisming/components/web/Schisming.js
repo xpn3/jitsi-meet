@@ -59,17 +59,25 @@ class Schisming extends Component<Props> {
         logger.info('Sets audio volume to ' + newVal);
         this.currentVolume = newVal;
 
-        var thisParticipantJid = APP.conference.getMyUserId();
+        var thisParticipantId = APP.conference.getMyUserId();
         var otherParticipants = APP.conference.getParticipants();
+
         var schismingHub = APP.conference.getSchismingHub();
+        var participantsToAdjust = schismingHub.getParticipantIdsOfOtherSchismingGroups(thisParticipantId);
 
-        var participantsToAdjust = schismingHub.getParticipantsOfOtherSchismingGroups(thisParticipantJid, otherParticipants);
-
-        for(var i = 0; i < participantsToAdjust.length; i++) {
-            var participantId = participantsToAdjust[i].getId();
+        for(var i = 0; i < otherParticipants.length; i++) {
+            var participantId = otherParticipants[i].getId();
             var smallVideo = APP.UI.getSmallVideo(participantId);
-            if(smallVideo) {
+            var found = participantsToAdjust.includes(participantId);
+
+            if(smallVideo == null) {
+                logger.warn('Unable to find smallVideo for participant ' + participantId);
+            } else if(found) {
+                logger.info('For participant ' + participantId + ' setting audio volume to ' + newVal);
                 smallVideo._setAudioVolume(newVal);
+            } else {
+                logger.info('For participant ' + participantId + ' setting audio volume to ' + 1);
+                smallVideo._setAudioVolume(1);
             }
         }
     }
