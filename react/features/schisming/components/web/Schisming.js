@@ -32,11 +32,13 @@ class Schisming extends Component<Props> {
     render() {
         return (
             <div className = 'schisming-container'>
-                <SchismingGroups />
-                <SchismingVolumeSlider
-                    initialValue = { this.currentVolume }
-                    key = 'volume-slider'
-                    onChange = { this._setAudioVolume } />
+                <div className = 'schisming-container-content'>
+                    <SchismingGroups />
+                    <SchismingVolumeSlider
+                        initialValue = { this.currentVolume }
+                        key = 'volume-slider'
+                        onChange = { this._setAudioVolume } />
+                </div>
             </div>
         );
     }

@@ -141,9 +141,9 @@ export default class RemoteVideo extends SmallVideo {
 
         const initialVolumeValue = this._audioStreamElement && this._audioStreamElement.volume;
 
-        // hide volume when in silent mode
+        // hide volume when in silent mode or Schisming feature is active
         const onVolumeChange
-            = APP.store.getState()['features/base/config'].startSilent ? undefined : this._setAudioVolume;
+            = APP.store.getState()['features/base/config'].startSilent || window.schisming.isActive() ? undefined : this._setAudioVolume;
 
         ReactDOM.render(
             <Provider store = { APP.store }>

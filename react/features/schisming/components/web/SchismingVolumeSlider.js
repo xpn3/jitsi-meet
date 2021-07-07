@@ -29,18 +29,23 @@ class SchismingVolumeSlider extends Component<Props, State> {
     render() {
         return (
             <div className = 'schisming-slider-container'>
-                <span className = 'schisming-slider-icon'>
-                    <Icon src = { IconVolume } />
-                </span>
-                <input
-                    className = 'schisming-slider'
-                    max = { VOLUME_SLIDER_SCALE }
-                    min = { 0 }
-                    onChange = { this._onVolumeChange }
-                    type = 'range'
-                    value = { this.state.volumeLevel } />
-                <div className = 'schisming-slider-text'>
-                    { this.state.volumeLevel }%
+                <div className = 'schisming-slider-container-content'>
+                    <span className = 'schisming-slider-icon'>
+                        <Icon src = { IconVolume } />
+                    </span>
+                    <input
+                        className = 'schisming-slider'
+                        max = { VOLUME_SLIDER_SCALE }
+                        min = { 0 }
+                        onChange = { this._onVolumeChange }
+                        type = 'range'
+                        value = { this.state.volumeLevel } />
+                    <div className = 'schisming-slider-text'>
+                        <strong>{ this.state.volumeLevel }%</strong>
+                    </div>
+                </div>
+                <div className = 'schisming-slider-container-label'>
+                    Volume of other groups
                 </div>
             </div>
         );

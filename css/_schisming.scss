@@ -3,57 +3,68 @@
         align-items: center;
         display: flex;
         height: 100%;
-        justify-content: space-evenly;
+        justify-content: center;
         position: fixed;
         width: 100%;
         z-index: 3;
-        flex-direction: column;
         background: gray;
+    }
+
+    &-container-content {
+        align-items: center;
+        display: flex;
+        height: 65%;
+        justify-content: flex-end;
+        width: 65%;
+        z-index: 3;
+        flex-wrap: nowrap;
+        flex-direction: column;
     }
 
     &-groups {
         display: flex;
-        height: 50%;
+        width: 100%;
         flex-wrap: wrap;
         justify-content: center;
-        align-content: flex-start;
+        align-content: center;
+        min-height: 350px;
+        z-index: 4;
+    }
+
+    &-group {
+        display: flex;
+        background: black;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        min-height: 125px;
+        min-width: 125px;
+        margin: 5px;
+        padding: 15px;
+        justify-content: flex-end;
+    }
+
+    &-group-member {
+        display: flex;
+        color: white;
+    }
+
+    &-group-button-join {
+        display: flex;
+        width: 100%;
+        height: 30px;
+        background: #0376DA;
+        border-radius: 3px;
+        font-size: 1em;
+        cursor: pointer;
+        align-self: center;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        margin-top: 10px;
         z-index: 4;
 
-        .schisming-group {
-            display: flex;
-            background: black;
-            flex-direction: column;
-            flex-wrap: nowrap;
-            min-height: 125px;
-            min-width: 125px;
-            margin: 5px;
-            padding: 15px;
-            justify-content: flex-end;
-
-            &-button-join {
-                display: flex;
-                width: 100%;
-                height: 30px;
-                background: #0376DA;
-                border-radius: 3px;
-                font-size: 1em;
-                cursor: pointer;
-                align-self: center;
-                justify-content: center;
-                align-items: center;
-                color: white;
-                margin-top: 10px;
-                z-index: 4;
-
-                &:hover {
-                    background: #278ADF;
-                }
-            }
-        }
-
-        .schisming-group-member {
-            display: flex;
-            color: white;
+        &:hover {
+            background: #278ADF;
         }
     }
 
@@ -61,45 +72,70 @@
         align-items: center;
         background-color: black;
         display: flex;
-        height: 4em;
+        height: 5.5em;
         justify-content: center;
-        width: 25%;
+        width: 500px;
         min-width: 150px;
+        flex-direction: column;
         z-index: 4;
+    }
 
-        .schisming-slider-icon {
-            align-items: center;
-            display: flex;
-            height: 100%;
-            min-width: 20px;
-            padding-right: 10px;
-            vertical-align: middle;
+    &-slider-container-label {
+        height: 2em;
+        display: flex;
+        color: white;
+        align-items: flex-start;
+    }
+
+    &-slider-container-content {
+        display: flex;
+        height: 3em;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &-slider-icon {
+        align-items: center;
+        display: flex;
+        height: 100%;
+        min-width: 20px;
+        padding-right: 10px;
+    }
+
+    &-slider {
+        display: flex;
+        min-width: 100px;
+        width: 80%;
+        margin-right: 10px;
+
+        &::-webkit-slider-runnable-track {
+            background-color: #0376da;
         }
 
-        .schisming-slider {
-            display: flex;
-            min-width: 100px;
-            width: 50%;
-            margin-right: 10px;
-
-            &::-webkit-slider-runnable-track {
-                background-color: $popupSliderColor;
-            }
-
-            &::-moz-range-track {
-                background-color: $popupSliderColor;
-            }
-
-            &::-ms-fill-lower {
-                background-color: $popupSliderColor;
-            }
+        &::-moz-range-track {
+            background-color: #0376da;
         }
 
-        .schisming-slider-text {
-            display: flex;
-            color: white;
-            align-items: center;
-            padding-top: 2px;
+        &::-ms-fill-lower {
+            background-color: #0376da;
         }
+    }
+
+    &-slider-text {
+        display: flex;
+        color: white;
+        align-items: center;
+        padding-top: 2px;
+    }
+}
+
+@media screen and (orientation:portrait) {
+    .schisming-container-content {
+        width: 65%;
+    }
+
+    .schisming-slider-container {
+        max-width: 90%;
     }
 }
